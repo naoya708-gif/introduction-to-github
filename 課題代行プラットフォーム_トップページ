@@ -1,0 +1,228 @@
+トップページ
+
+HTML
+<header>
+    <h1>課題代行プラットフォーム</h1>
+</header>
+
+<main>
+    <section id="provider-list-section">
+        <h2>業者一覧</h2>
+        <div id="provider-list" class="provider-grid">
+            </div>
+    </section>
+</main>
+
+<footer>
+    <p>&copy; 2025 課題代行プラットフォーム</p>
+</footer>
+
+
+CSS
+/* 基本スタイル */
+body {
+    font-family: sans-serif;
+    margin: 0;
+    background-color: #f4f4f4;
+    color: #333;
+    line-height: 1.6;
+    padding-bottom: 60px; /* フッターの高さ分 */
+}
+
+header {
+    background: #333;
+    color: #fff;
+    padding: 1rem 0;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+}
+
+main {
+    padding: 20px;
+    max-width: 1000px;
+    margin: 20px auto;
+    background: #fff;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+footer {
+    text-align: center;
+    padding: 1rem 0;
+    background: #333;
+    color: #fff;
+    position: fixed;
+    bottom: 0;
+    left: 0; /* 左端に固定 */
+    width: 100%;
+}
+
+h2 {
+    color: #333;
+    margin-bottom: 1rem;
+}
+
+/* 業者一覧 (トップページ) */
+#provider-list-section {
+    /* margin-bottom は body の padding-bottom で対応するため不要 */
+}
+
+.provider-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.provider-card {
+    background: #fff;
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+}
+
+.provider-card:hover {
+    transform: translateY(-5px);
+}
+
+.provider-card h3 {
+    margin-top: 0;
+    color: #007bff;
+}
+
+.provider-card p {
+    font-size: 0.9em;
+    margin-bottom: 0.5em;
+}
+
+/* チャットルームのスタイルもここに含めておきますが、
+   今回のトップページ用CodePenでは直接は使用しません。
+   別途チャットUI用のPenを作る際に参考にしてください。
+*/
+#chat-section {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#chat-header {
+    background-color: #f0f0f0;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+}
+
+#chat-header h2 {
+    margin: 0;
+    font-size: 1.2em;
+}
+
+#message-area {
+    height: 400px;
+    overflow-y: auto;
+    padding: 15px;
+    border-bottom: 1px solid #ccc;
+    background-color: #e9e9e9;
+}
+
+.message {
+    margin-bottom: 10px;
+    padding: 8px 12px;
+    border-radius: 15px;
+    max-width: 70%;
+    word-wrap: break-word;
+}
+
+.message.sent {
+    background-color: #007bff;
+    color: white;
+    margin-left: auto;
+    border-bottom-right-radius: 5px;
+}
+
+.message.received {
+    background-color: #fff;
+    color: #333;
+    border: 1px solid #ddd;
+    margin-right: auto;
+    border-bottom-left-radius: 5px;
+}
+
+#message-form {
+    display: flex;
+    padding: 10px;
+}
+
+#message-input {
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    resize: none;
+    margin-right: 10px;
+    min-height: 40px;
+}
+
+#message-form button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#message-form button:hover {
+    background-color: #0056b3;
+}
+
+
+
+
+Java
+document.addEventListener('DOMContentLoaded', function() {
+    const providerListElement = document.getElementById('provider-list');
+
+    // ダミーの業者データ
+    const providers = [
+        { id: 1, name: '山田太郎サービス', specialty: 'レポート作成、プログラミング', rating: 4.8, description: '迅速かつ丁寧な対応を心がけています。' },
+        { id: 2, name: '佐藤花子アシスト', specialty: '論文校正、データ入力', rating: 4.9, description: '高品質な成果物をお約束します。' },
+        { id: 3, name: '鈴木一郎サポート', specialty: 'プレゼン資料作成、翻訳', rating: 4.7, description: 'どんな課題でもご相談ください。' },
+        { id: 4, name: '高橋美咲代行センター', specialty: '数学、物理の課題全般', rating: 4.6, description: '理系科目の課題はお任せください。' },
+    ];
+
+    if (providerListElement) {
+        providers.forEach(provider => {
+            const card = document.createElement('div');
+            card.classList.add('provider-card');
+            // data-属性はCodePen上でも保持できますが、ここでは直接使わないので必須ではありません。
+            // card.setAttribute('data-provider-id', provider.id);
+            // card.setAttribute('data-provider-name', provider.name);
+
+            card.innerHTML = `
+                <h3>${provider.name}</h3>
+                <p><strong>得意分野:</strong> ${provider.specialty}</p>
+                <p><strong>評価:</strong> ${'★'.repeat(Math.floor(provider.rating))}${'☆'.repeat(5 - Math.floor(provider.rating))} (${provider.rating})</p>
+                <p>${provider.description}</p>
+            `;
+
+            card.addEventListener('click', function() {
+                // const providerId = provider.id; // providerオブジェクトを直接参照
+                const providerName = provider.name;
+
+                // CodePen上では実際のページ遷移は難しいため、アラートで表示
+                alert(`「${providerName}」さんとのチャットを開始します。\n(CodePenではここまで。実際のサイトではチャットページに遷移します)`);
+
+                // 元の遷移コード (CodePenでは機能しないためコメントアウト)
+                // window.location.href = `chat.html?providerId=${providerId}&providerName=${encodeURIComponent(providerName)}`;
+            });
+
+            providerListElement.appendChild(card);
+        });
+    }
+});
+
+
+
